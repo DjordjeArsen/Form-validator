@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assignment 2 - Website Building</title>
+    <script
+      src="https://kit.fontawesome.com/60e15d471e.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      body {
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+
+      #login-container {
+        width: 460px;
+        margin: 0 auto;
+      }
+
+      form label,
+      form input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      form input {
+        padding: 8px;
+        border: 2px solid black;
+      }
+
+      form label {
+        font-weight: bold;
+      }
+
+      form div {
+        margin: 16px 0px;
+      }
+      .user_div {
+        position: relative;
+      }
+
+      .user_div .fa-check {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        color: rgb(5, 185, 5);
+      }
+
+      .user_div .fa-x {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        color: red;
+      }
+
+      .password_div {
+        position: relative;
+      }
+
+      .password_div .fa-check {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        color: rgb(3, 219, 3);
+      }
+
+      .password_div .fa-x {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        color: rgb(255, 44, 44);
+      }
+
+      .positive-border {
+        border-color: rgb(3, 219, 3);
+      }
+
+      .negative-border {
+        border-color: rgb(255, 44, 44);
+      }
+
+      .hidden {
+        display: none;
+      }
+      small {
+        display: block;
+        padding: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="login-container">
+      <form autocomplete="off">
+        <div class="user_div">
+          <label for="username">Username:</label>
+          <input id="username" type="text" />
+          <i class="fa-solid fa-check hidden user_check"></i>
+          <i class="fa-solid fa-x hidden user_x"></i>
+        </div>
+
+        <div class="password_div">
+          <label for="password">Password:</label>
+          <input id="password" type="password" />
+          <i class="fa-solid fa-check hidden password_check"></i>
+          <i class="fa-solid fa-x hidden password_x"></i>
+        </div>
+
+        <input id="button" type="submit" value="Login" />
+      </form>
+
+      <div>
+        <small id="username_replay"></small>
+        <small id="pass_replay"></small>
+      </div>
+    </div>
+    <script>
+      const button_submit = document.querySelector("#button");
+      button_submit.onclick = function (event) {
+        event.preventDefault();
+      };
+
+      let ime_provera = document.querySelector("#username_replay");
+      let sifra_provera = document.querySelector("#pass_replay");
+
+      let positive1 = document.querySelector(".user_check");
+      let error1 = document.querySelector(".user_x");
+      let positive2 = document.querySelector(".password_check");
+      let error2 = document.querySelector(".password_x");
+
+      let user = document.querySelector("#username");
+      let password = document.querySelector("#password");
+
+      function default_password_css() {
+        sifra_provera.innerHTML = "";
+        password.classList.remove("positive-border");
+        password.classList.remove("negative-border");
+        error2.classList.add("hidden");
+        positive2.classList.add("hidden");
+      }
+      function default_user_css() {
+        ime_provera.innerHTML = "";
+        user.classList.remove("positive-border");
+        user.classList.remove("negative-border");
+        error1.classList.add("hidden");
+        positive1.classList.add("hidden");
+      }
+
+      function validation_user() {
+        default_user_css();
+        if (user.value == "new_user") {
+          positive1.classList.remove("hidden");
+          user.classList.add("positive-border");
+        } else if (user.value == "") {
+          error1.classList.remove("hidden");
+          user.classList.add("negative-border");
+          ime_provera.innerHTML = "*please, enter username";
+          //return false;
+        } else {
+          error1.classList.remove("hidden");
+          user.classList.add("negative-border");
+          ime_provera.innerHTML = "*please, enter valid username";
+          //return false;
+        }
+      }
+
+      function validation_password() {
+        default_password_css();
+        if (password.value == "123456789") {
+          positive2.classList.remove("hidden");
+          password.classList.add("positive-border");
+          //return false;
+        } else if (password.value == "") {
+          error2.classList.remove("hidden");
+          password.classList.add("negative-border");
+          sifra_provera.innerHTML = "*please, enter password";
+          //return false;
+        } else {
+          error2.classList.remove("hidden");
+          password.classList.add("negative-border");
+          sifra_provera.innerHTML = "*please, enter valid password";
+          //return false;
+        }
+      }
+
+      function validation_success() {
+        if (user.value == "new_user" && password.value == "123456789") {
+          default_password_css();
+          default_user_css();
+          ime_provera.innerHTML = "Succesful login!";
+          positive1.classList.remove("hidden");
+          positive2.classList.remove("hidden");
+          user.classList.add("positive-border");
+          password.classList.add("positive-border");
+          //return false;
+        }
+      }
+
+      button_submit.addEventListener("click", validation_user);
+      button_submit.addEventListener("click", validation_password);
+      button_submit.addEventListener("click", validation_success);
+    </script>
+  </body>
+</html>
